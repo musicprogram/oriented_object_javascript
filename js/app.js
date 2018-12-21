@@ -16,24 +16,33 @@ class UI { // clase de interfaz de usuario
 					<strong>Product name</strong>: ${product.name}
 					<strong>Product price</strong>: ${product.price}
 					<strong>Product year</strong>: ${product.year}
+					<a href="#" class="btn btn-danger" name="delete">delete</a>
 				</div>
 			</div>		
 		`
 		productList.appendChild(element);
 	}
-	deleteProduct(){
 
+	resetForm(){ // resetear los inputs del formulario
+		document.getElementById('product-form').reset(); // get id form y resetearlo
+	}
+
+	deleteProduct(element){	
+		if(element.name === 'delete'){ // se comprueba que haya un name=delete
+			element.parentElement.parentElement.parentElement.remove();  // se elimina el padres del padre.... co remove()
+		}
+		
 	}
 	showMessage(){
 
 	}
 }
 
-// Dom events
+// Dom events formulario
 
 form = document.getElementById('product-form');
 
-form.addEventListener('submit', function(event){	
+form.addEventListener('submit', function(event){	// asignar evento al metodo submit del formulario con addEvent...
 
 	const name = document.getElementById('name').value; // valores de las variables del formulario  
 	const price = document.getElementById('price').value;
@@ -45,6 +54,19 @@ form.addEventListener('submit', function(event){
 
 	ui.addProduct(product) // enviandole todo el producto al metodo agregar de UI
 
+	ui.resetForm()
+
 	event.preventDefault(); // evita que el navegador recargue la pagina
 
+});
+
+
+// otro evento del formulario eliminar
+
+
+list = document.querySelector('#product-list'); // selecciono el id de product-list
+
+list.addEventListener('click', function (e) { // evento click 
+  ui = new UI;  //se crea un objeto de interfaz y se llama al metodo delete
+  ui.deleteProduct(e.target); 
 });
